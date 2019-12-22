@@ -63,5 +63,3 @@ To use this shipping method just try to follow next steps:
 6. Use the shipment condition to prevent this method for showing up for out-of-bounds shipping.
 7. Configure the price matrix according to the instructions on the page	1
 8. Save shipping method configuration.
-
-

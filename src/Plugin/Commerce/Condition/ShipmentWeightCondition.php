@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @CommerceCondition(
  *   id = "shipment_weight_condition",
- *   label = @Translation("Shipment weight),
+ *   label = @Translation("Shipment weight"),
  *   category = @Translation("Shipment"),
  *   entity_type = "commerce_shipment",
  * )
@@ -59,11 +59,10 @@ class ShipmentWeightCondition extends ConditionBase implements ContainerFactoryP
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
-    return 
-      [
-        'operator' => '<',
-        'weight' => NULL,
-      ]
+    return [
+      'operator' => '<',
+      'weight' => NULL,
+    ]
      + parent::defaultConfiguration();
   }
 
@@ -73,48 +72,48 @@ class ShipmentWeightCondition extends ConditionBase implements ContainerFactoryP
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
 
-      $weight = $this->configuration['condition']['weight'];
-      $price = $this->configuration['condition']['price'];
-      $enabled = $this->configuration['condition']['enabled'];
-      $operator = $this->configuration['condition']['operator'];
+    $weight = $this->configuration['condition']['weight'];
+    $price = $this->configuration['condition']['price'];
+    $enabled = $this->configuration['condition']['enabled'];
+    $operator = $this->configuration['condition']['operator'];
 
-      $form['condition'] = [
-        '#type' => 'fieldset',
-        '#title' => 'Condition',
-      ];
-     
-      // Show condition group fields only when 'Enabled' checkbox is checked.
-      $form['condition']['operator'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Operator'),
-        '#options' => $this->getComparisonOperators(),
-        '#default_value' => $operator,
-        '#required' => FALSE,
-        '#states' => [
-          'invisible' => [
-            ':input[name="conditions[form][shipment][shipment_weight_multiple_conds][configuration][form][condition_' . $i . '][enabled]"]' => ['checked' => FALSE],
-          ],
-          'required' => [
-            ':input[name="conditions[form][shipment][shipment_weight_multiple_conds][configuration][form][condition_' . $i . '][enabled]"]' => ['checked' => TRUE],
-          ],
-        ],
-      ];
+    $form['condition'] = [
+      '#type' => 'fieldset',
+      '#title' => 'Condition',
+    ];
 
-      $form['condition']['weight'] = [
-        '#type' => 'physical_measurement',
-        '#measurement_type' => MeasurementType::WEIGHT,
-        '#title' => $this->t('Weight'),
-        '#default_value' => $weight,
-        '#required' => FALSE,
-        '#states' => [
-          'invisible' => [
-            ':input[name="conditions[form][shipment][shipment_weight_multiple_conds][configuration][form][condition_' . $i . '][enabled]"]' => ['checked' => FALSE],
-          ],
-          'required' => [
-            ':input[name="conditions[form][shipment][shipment_weight_multiple_conds][configuration][form][condition_' . $i . '][enabled]"]' => ['checked' => TRUE],
-          ],
+    // Show condition group fields only when 'Enabled' checkbox is checked.
+    $form['condition']['operator'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Operator'),
+      '#options' => $this->getComparisonOperators(),
+      '#default_value' => $operator,
+      '#required' => FALSE,
+      '#states' => [
+        'invisible' => [
+          ':input[name="conditions[form][shipment][shipment_weight_multiple_conds][configuration][form][condition_' . $i . '][enabled]"]' => ['checked' => FALSE],
         ],
-      ];
+        'required' => [
+          ':input[name="conditions[form][shipment][shipment_weight_multiple_conds][configuration][form][condition_' . $i . '][enabled]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
+
+    $form['condition']['weight'] = [
+      '#type' => 'physical_measurement',
+      '#measurement_type' => MeasurementType::WEIGHT,
+      '#title' => $this->t('Weight'),
+      '#default_value' => $weight,
+      '#required' => FALSE,
+      '#states' => [
+        'invisible' => [
+          ':input[name="conditions[form][shipment][shipment_weight_multiple_conds][configuration][form][condition_' . $i . '][enabled]"]' => ['checked' => FALSE],
+        ],
+        'required' => [
+          ':input[name="conditions[form][shipment][shipment_weight_multiple_conds][configuration][form][condition_' . $i . '][enabled]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
 
     return $form;
   }
@@ -124,7 +123,7 @@ class ShipmentWeightCondition extends ConditionBase implements ContainerFactoryP
    */
   public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
     parent::submitConfigurationForm($form, $form_state);
-    
+
   }
 
   /**
@@ -159,36 +158,35 @@ class ShipmentWeightCondition extends ConditionBase implements ContainerFactoryP
     }
     // Get enabled conditions list.
     $condition = $this->getConfiguration();
-    dpm($condition);
     // Evaluate matching conditions.
-      $condition_unit = $condition['weight']['unit'];
+    $condition_unit = $condition['weight']['unit'];
 
-      /** @var \Drupal\physical\Weight $weight */
-      $weight = $weight->convert($condition_unit);
-      $condition_weight = new Weight($condition['weight']['number'], $condition_unit);
-      // Saving condition info to states.
-      $this->stateService->set('shipment_' . $shipment->getShippingMethodId() . '-' . $shipment->getOrderId().'_' . $shipment->id() . '_weight_condition', $condition);
-      
-      // Return evaluation results.
-      switch ($condition['operator']) {
-        case '>=':
-          return $weight->greaterThanOrEqual($condition_weight);
+    /** @var \Drupal\physical\Weight $weight */
+    $weight = $weight->convert($condition_unit);
+    $condition_weight = new Weight($condition['weight']['number'], $condition_unit);
+    // Saving condition info to states.
+    $this->stateService->set('shipment_' . $shipment->getShippingMethodId() . '-' . $shipment->getOrderId() . '_' . $shipment->id() . '_weight_condition', $condition);
 
-        case '>':
-          return $weight->greaterThan($condition_weight);
+    // Return evaluation results.
+    switch ($condition['operator']) {
+      case '>=':
+        return $weight->greaterThanOrEqual($condition_weight);
 
-        case '<=':
-          return $weight->lessThanOrEqual($condition_weight);
+      case '>':
+        return $weight->greaterThan($condition_weight);
 
-        case '<':
-          return $weight->lessThan($condition_weight);
+      case '<=':
+        return $weight->lessThanOrEqual($condition_weight);
 
-        case '==':
-          return $weight->equals($condition_weight);
-          
-        default:
-          throw new \InvalidArgumentException("Invalid operator {$this->configuration['operator']}");
-      }
+      case '<':
+        return $weight->lessThan($condition_weight);
+
+      case '==':
+        return $weight->equals($condition_weight);
+
+      default:
+        throw new \InvalidArgumentException("Invalid operator {$this->configuration['operator']}");
+    }
     return FALSE;
   }
 
