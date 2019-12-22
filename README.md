@@ -2,6 +2,7 @@ CONTENTS OF THIS FILE
 ---------------------
 
  * Introduction
+ * Calculation Rules
  * Requirements
  * Installation
  * Configuration
@@ -20,6 +21,8 @@ Conditions are stored in a plugin "Shipment weight condition".  This uses EACH S
 
 These conditions are used to track *Eligibility* for this shipping method to show.
 
+CALCULATION RULES
+-------------
 *Calculation Rules* are used to calculate the actual shipping price, plus the base shipping rate.
 
 This is defined in a comma separated list in the following format:
@@ -74,5 +77,5 @@ To use this shipping method just try to follow next steps:
 4. Set base rate amount for shipping method.
 5. Open "Shipment" conditions list below.
 6. Use the shipment condition to prevent this method for showing up for out-of-bounds shipment weight.
-7.
+7. Enter calculation rules as instructed (more notes on format above)
 8. Save shipping method configuration.
