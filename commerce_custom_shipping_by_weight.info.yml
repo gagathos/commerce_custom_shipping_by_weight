@@ -1,0 +1,11 @@
+name: Commerce Shipping By Weight
+type: module
+core: '8.x'
+description: 'Provides commerce shipping by shipment weight.'
+package: Commerce (contrib)
+dependencies:
+  - commerce:commerce
+  - commerce:commerce_order
+  - commerce:commerce_price
+  - physical:physical
+  - commerce_shipping:commerce_shipping

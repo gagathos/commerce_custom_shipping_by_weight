@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * Contains Drupal hooks.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+
+/**
+ * Implements hook_help().
+ */
+function commerce_custom_shipping_by_weight_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the commerce_custom_shipping_by_weight module.
+    case 'help.page.commerce_custom_shipping_by_weight':
+      $path = __DIR__ . '/README.txt';
+      if (file_exists($path)) {
+        $readme = file_get_contents($path);
+      }
+
+      if (!isset($readme)) {
+        return NULL;
+      }
+
+      return '<pre>' . $readme . '</pre>';
+  }
+}
