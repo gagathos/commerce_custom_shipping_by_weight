@@ -1,4 +1,4 @@
-name: Commerce Shipping By Weight
+name: Commerce Custom Shipping By Weight
 type: module
 core: '8.x'
 description: 'Provides commerce shipping by shipment weight.'
