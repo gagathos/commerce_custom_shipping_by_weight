@@ -88,15 +88,7 @@ class ShipmentWeightCondition extends ConditionBase implements ContainerFactoryP
       '#title' => $this->t('Operator'),
       '#options' => $this->getComparisonOperators(),
       '#default_value' => $operator,
-      '#required' => FALSE,
-      '#states' => [
-        'invisible' => [
-          ':input[name="conditions[form][shipment][shipment_weight_multiple_conds][configuration][form][condition_' . $i . '][enabled]"]' => ['checked' => FALSE],
-        ],
-        'required' => [
-          ':input[name="conditions[form][shipment][shipment_weight_multiple_conds][configuration][form][condition_' . $i . '][enabled]"]' => ['checked' => TRUE],
-        ],
-      ],
+      '#required' => TRUE,
     ];
 
     $form['condition']['weight'] = [
@@ -104,15 +96,7 @@ class ShipmentWeightCondition extends ConditionBase implements ContainerFactoryP
       '#measurement_type' => MeasurementType::WEIGHT,
       '#title' => $this->t('Weight'),
       '#default_value' => $weight,
-      '#required' => FALSE,
-      '#states' => [
-        'invisible' => [
-          ':input[name="conditions[form][shipment][shipment_weight_multiple_conds][configuration][form][condition_' . $i . '][enabled]"]' => ['checked' => FALSE],
-        ],
-        'required' => [
-          ':input[name="conditions[form][shipment][shipment_weight_multiple_conds][configuration][form][condition_' . $i . '][enabled]"]' => ['checked' => TRUE],
-        ],
-      ],
+      '#required' => TRUE,
     ];
 
     return $form;
