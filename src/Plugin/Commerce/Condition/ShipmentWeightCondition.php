@@ -164,8 +164,6 @@ class ShipmentWeightCondition extends ConditionBase implements ContainerFactoryP
     /** @var \Drupal\physical\Weight $weight */
     $weight = $weight->convert($condition_unit);
     $condition_weight = new Weight($condition['weight']['number'], $condition_unit);
-    // Saving condition info to states.
-    $this->stateService->set('shipment_' . $shipment->getShippingMethodId() . '-' . $shipment->getOrderId() . '_' . $shipment->id() . '_weight_condition', $condition);
 
     // Return evaluation results.
     switch ($condition['operator']) {
